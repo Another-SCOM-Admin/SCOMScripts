@@ -1,0 +1,29 @@
+$name=read-host "Enter subscriber name to lookup subscriptions"
+$subs=get-scomnotificationsubscription​
+foreach ($sub in $subs)​
+{​
+    $user=$null​
+    $displayname=$sub.DisplayName​
+    foreach ($recipient in $sub.ToRecipients)​
+    {​
+        if ($recipient.name -like "*$name*")​
+        {​
+            $user=$recipient​
+        }​
+    }​
+    if ($delsub -ne $null)​
+    {​
+        write-host Found $user.name -ForegroundColor Cyan -NoNewline; write-host " " from subscription -ForegroundColor White -NoNewline; write-host " " $sub.DisplayName -ForegroundColor Yellow​
+        $confirm=read-host "Proceed with delete? Y or N"​
+        if ($confirm -eq "Y")​
+        {​
+            write-host Removing...​
+            $sub.ToRecipients.remove($delsub)​
+            $sub.update()​
+        }​
+        else​
+        {​
+            write-host "Y not selected, quitting"​
+        }​
+    }​
+}​
