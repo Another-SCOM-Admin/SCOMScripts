@@ -1,0 +1,15 @@
+$name=read-host "Enter part of subscriber name to lookup"
+$subs=get-scomnotificationsubscription​
+foreach ($sub in $subs)​
+{​
+    $user=$null​
+    $displayname=$sub.DisplayName​
+    foreach ($recipient in $sub.ToRecipients)​
+    {​
+        if ($recipient.name -like "*$name*")​
+        {​
+            $user=$recipient​
+            write-host Found -NoNewline; write-host " " $user.name -ForegroundColor Cyan -NoNewline; write-host " " for subscription -NoNewline; write-host " " $sub.DisplayName -ForegroundColor Yellow​
+        }​
+    }​
+}​
